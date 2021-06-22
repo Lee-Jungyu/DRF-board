@@ -7,7 +7,7 @@ from rest_framework.views import APIView
 from rest_framework.generics import get_object_or_404
 
 from .models import Post
-from .serializers import PostSerializer
+from .serializers import PostSerializer, PostModelSerializer
 
 # Create your views here.
 
@@ -15,11 +15,11 @@ class PostAPI(APIView):
 
     def get(self, request):
         posts = Post.objects.filter()
-        serializer = PostSerializer(posts, many=True)
+        serializer = PostModelSerializer(posts, many=True)
         return Response(serializer.data)
 
     def post(self, request):
-        serializer = PostSerializer(data=request.data)
+        serializer = PostModelSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -34,12 +34,12 @@ class PostDetailAPI(APIView):
 
     def get(self, request, pk):
         post=self.get_object(pk)
-        serializer = PostSerializer(post)
+        serializer = PostModelSerializer(post)
         return Response(serializer.data)
 
     def put(self, request, pk):
         post = self.get_object(pk)
-        serializer = PostSerializer(post, data=request.data)
+        serializer = PostModelSerializer(post, data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)

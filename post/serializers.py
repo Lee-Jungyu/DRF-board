@@ -2,6 +2,7 @@ from django.db.models import fields
 from rest_framework import serializers
 from .models import Post
 
+# Serializer 사용
 class PostSerializer(serializers.Serializer):
     id = serializers.IntegerField(read_only=True)
     title = serializers.CharField()
@@ -20,4 +21,16 @@ class PostSerializer(serializers.Serializer):
         instance.author = validated_data.get('author', instance.author)
         instance.save()
         return instance
-        
+
+    # custom validation    
+    def validate_title_length(self, data):
+        if len(data['title']) > 50:
+            raise serializers.ValidationError("Title length should be less than 50")
+
+# ModelSerializer 사용
+# 필드를 재정의할 필요가 사라지고 create와 update 함수를 기본으로 제공
+# validate 함수 자동 제공
+class PostModelSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Post
+        fields = '__all__'
