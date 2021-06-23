@@ -22,7 +22,7 @@ class PostSerializer(serializers.Serializer):
         instance.save()
         return instance
 
-    # custom validation    
+    # custom validation (title length)
     def validate_title_length(self, data):
         if len(data['title']) > 50:
             raise serializers.ValidationError("Title length should be less than 50")
