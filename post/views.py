@@ -1,5 +1,3 @@
-from django.shortcuts import render
-
 from rest_framework import status
 from rest_framework.response import Response
 
@@ -11,8 +9,8 @@ from .serializers import PostSerializer, PostModelSerializer
 
 # Create your views here.
 
-class PostAPI(APIView):
 
+class PostAPI(APIView):
     def get(self, request):
         posts = Post.objects.filter()
         serializer = PostModelSerializer(posts, many=True)
@@ -27,13 +25,12 @@ class PostAPI(APIView):
 
 
 class PostDetailAPI(APIView):
-
     def get_object(self, pk):
-        post=get_object_or_404(Post, pk=pk)
+        post = get_object_or_404(Post, pk=pk)
         return post
 
     def get(self, request, pk):
-        post=self.get_object(pk)
+        post = self.get_object(pk)
         serializer = PostModelSerializer(post)
         return Response(serializer.data)
 
