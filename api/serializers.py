@@ -4,6 +4,7 @@ from django.contrib.auth import authenticate
 
 from .models import Profile
 
+
 # 회원가입
 class CreateUserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -13,17 +14,17 @@ class CreateUserSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         user = User.objects.create_user(
-            validated_data["username"],
-            None, 
-            validated_data["password"]
+            validated_data["username"], None, validated_data["password"]
         )
         return user
+
 
 # 접속 유지 중인지 확인
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ("id", "username")
+
 
 # 로그인
 class LoginUserSerializer(serializers.Serializer):
@@ -34,7 +35,10 @@ class LoginUserSerializer(serializers.Serializer):
         user = authenticate(**data)
         if user and user.is_active:
             return user
-        raise serializers.ValidationError("Unable to log in with provided credentials")
+        raise serializers.ValidationError(
+            "Unable to log in with provided credentials"
+        )
+
 
 class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
