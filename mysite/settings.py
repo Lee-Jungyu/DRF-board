@@ -42,7 +42,6 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     # 추가된 apps
-    "api",
     "rest_framework",
     "knox",
     "post",
